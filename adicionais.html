@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escolha seus Adicionais - Guia Açaí</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1603361513139-4f7efd5c9b1c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: white;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4a1a6a, #6a3093);
+            padding: 1.5rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            color: #ffd700;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 120px auto 0;
+            padding: 2rem;
+        }
+
+        .addons-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .addons-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .addons-header h1 {
+            color: #4a1a6a;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .addons-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .product-info {
+            background: #f8f8f8;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-title {
+            color: #4a1a6a;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .product-price {
+            color: #2ecc71;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .addons-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .addon-option {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            background: white;
+        }
+
+        .addon-option:hover {
+            border-color: #4a1a6a;
+            background: #f8f8f8;
+        }
+
+        .addon-option.selected {
+            border-color: #4a1a6a;
+            background: #f8f8f8;
+        }
+
+        .addon-option i {
+            color: #4a1a6a;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .addon-option span {
+            display: block;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        .addon-option.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: #f0f0f0;
+        }
+
+        .addon-option.disabled:hover {
+            border-color: #ddd;
+            background: #f0f0f0;
+        }
+
+        .total-section {
+            background: #4a1a6a;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .total-row:last-child {
+            margin-bottom: 0;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .action-button {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .confirm-button {
+            background: linear-gradient(135deg, #4a1a6a, #6a3093);
+            color: white;
+        }
+
+        .confirm-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(74, 26, 106, 0.4);
+        }
+
+        .back-button {
+            background: #666;
+            color: white;
+        }
+
+        .back-button:hover {
+            background: #555;
+        }
+
+        .extra-addons-message {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+                margin-top: 100px;
+            }
+
+            .addons-card {
+                padding: 1.5rem;
+            }
+
+            .addons-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-ice-cream"></i>
+                Guia Açaí
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="addons-card">
+            <div class="addons-header">
+                <h1>Escolha seus Adicionais</h1>
+                <p>Personalize seu açaí com os melhores complementos</p>
+            </div>
+
+            <div class="product-info">
+                <div class="product-title" id="size-title">Açaí 300ml</div>
+                <div class="product-price" id="base-price">R$ 16,00</div>
+            </div>
+
+            <div class="addons-grid" id="addons-grid">
+                <!-- Adicionais serão inseridos aqui via JavaScript -->
+            </div>
+
+            <div class="extra-addons-message" id="extra-message" style="display: none;">
+                <!-- Mensagem de adicionais extras será inserida aqui -->
+            </div>
+
+            <div class="total-section">
+                <div class="total-row">
+                    <span>Subtotal</span>
+                    <span id="subtotal">R$ 16,00</span>
+                </div>
+                <div class="total-row" id="extra-row" style="display: none;">
+                    <span>Adicionais Extras</span>
+                    <span id="extra-price">R$ 0,00</span>
+                </div>
+                <div class="total-row">
+                    <span>Total</span>
+                    <span id="total-price">R$ 16,00</span>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-button back-button" onclick="window.location.href='index.html'">
+                    <i class="fas fa-arrow-left"></i>
+                    Voltar
+                </button>
+                <button class="action-button confirm-button" onclick="goToOrder()">
+                    <i class="fas fa-check"></i>
+                    Confirmar Pedido
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Lista de adicionais disponíveis
+        const addOns = [
+            "Leite Condensado",
+            "Morango",
+            "Banana",
+            "Granola",
+            "Paçoca",
+            "Chocolate"
+        ];
+
+        // Limites de adicionais por tamanho
+        const addonLimits = {
+            '200ml': 2,
+            '300ml': 3,
+            '500ml': 5
+        };
+
+        // Preço extra por adicional excedente
+        const extraAddonPrice = 2.00;
+
+        // Objeto para armazenar os adicionais selecionados
+        let selectedAddons = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Pegar parâmetros da URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const size = urlParams.get('size');
+            const basePrice = urlParams.get('price');
+
+            // Atualizar título e preço
+            document.getElementById('size-title').textContent = `Açaí ${size}`;
+            document.getElementById('base-price').textContent = `R$ ${basePrice}`;
+            document.getElementById('subtotal').textContent = `R$ ${basePrice}`;
+            document.getElementById('total-price').textContent = `R$ ${basePrice}`;
+
+            // Gerar grid de adicionais
+            const addonsGrid = document.getElementById('addons-grid');
+            addOns.forEach(addon => {
+                const div = document.createElement('div');
+                div.className = 'addon-option';
+                div.innerHTML = `
+                    <i class="fas fa-plus"></i>
+                    <span>${addon}</span>
+                `;
+                div.onclick = () => toggleAddon(div, addon, size);
+                addonsGrid.appendChild(div);
+            });
+        });
+
+        function toggleAddon(element, addon, size) {
+            const index = selectedAddons.indexOf(addon);
+            const currentAddons = selectedAddons.length;
+            const limit = addonLimits[size];
+
+            if (index === -1) {
+                if (currentAddons >= limit) {
+                    if (confirm(`Você já selecionou ${limit} adicionais. Deseja adicionar mais um por R$ ${extraAddonPrice.toFixed(2)}?`)) {
+                        selectedAddons.push(addon);
+                        element.classList.add('selected');
+                        element.querySelector('i').className = 'fas fa-check';
+                        updatePrice(size);
+                    }
+                } else {
+                    selectedAddons.push(addon);
+                    element.classList.add('selected');
+                    element.querySelector('i').className = 'fas fa-check';
+                    updatePrice(size);
+                }
+            } else {
+                selectedAddons.splice(index, 1);
+                element.classList.remove('selected');
+                element.querySelector('i').className = 'fas fa-plus';
+                updatePrice(size);
+            }
+        }
+
+        function updatePrice(size) {
+            const basePrice = parseFloat(document.getElementById('base-price').textContent.replace('R$ ', '').replace(',', '.'));
+            const extraAddons = Math.max(0, selectedAddons.length - addonLimits[size]);
+            const totalExtra = extraAddons * extraAddonPrice;
+            const totalPrice = basePrice + totalExtra;
+
+            // Atualizar mensagem de adicionais extras
+            const extraMessage = document.getElementById('extra-message');
+            const extraRow = document.getElementById('extra-row');
+            
+            if (extraAddons > 0) {
+                extraMessage.style.display = 'block';
+                extraMessage.textContent = `+ ${extraAddons} adicional(is) extra: R$ ${totalExtra.toFixed(2).replace('.', ',')}`;
+                
+                extraRow.style.display = 'flex';
+                document.getElementById('extra-price').textContent = `R$ ${totalExtra.toFixed(2).replace('.', ',')}`;
+            } else {
+                extraMessage.style.display = 'none';
+                extraRow.style.display = 'none';
+            }
+
+            // Atualizar preço total
+            document.getElementById('total-price').textContent = `R$ ${totalPrice.toFixed(2).replace('.', ',')}`;
+        }
+
+        function goToOrder() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const size = urlParams.get('size');
+            const basePrice = urlParams.get('price');
+            const extraAddons = Math.max(0, selectedAddons.length - addonLimits[size]);
+            const totalExtra = extraAddons * extraAddonPrice;
+            const totalPrice = parseFloat(basePrice.replace(',', '.')) + totalExtra;
+
+            const params = new URLSearchParams({
+                size: size,
+                price: totalPrice.toFixed(2).replace('.', ','),
+                addOns: encodeURIComponent(JSON.stringify(selectedAddons)),
+                extraAddons: extraAddons,
+                extraPrice: totalExtra.toFixed(2).replace('.', ',')
+            });
+
+            window.location.href = `pedido.html?${params.toString()}`;
+        }
+    </script>
+</body>
+</html> 

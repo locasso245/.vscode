@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Pedido - Guia Açaí</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1603361513139-4f7efd5c9b1c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: white;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4a1a6a, #6a3093);
+            padding: 1.5rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            color: #ffd700;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 120px auto 0;
+            padding: 2rem;
+        }
+
+        .payment-form {
+            background: rgb(255, 255, 255);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .order-summary {
+            background: #4a1a6a;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            color: white;
+        }
+
+        .order-summary h2 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .total {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2ecc71;
+            text-align: right;
+        }
+
+        .delivery-options, .payment-methods {
+            margin-bottom: 2rem;
+        }
+
+        .delivery-options h2, .payment-methods h2 {
+            color: #4a1a6a;
+            margin-bottom: 1rem;
+        }
+
+        .delivery-option, .payment-method {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            background: #f8f8f8;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .delivery-option:hover, .payment-method:hover {
+            background: #f0f0f0;
+        }
+
+        .delivery-option input[type="radio"], .payment-method input[type="radio"] {
+            margin-right: 1rem;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .delivery-option label, .payment-method label {
+            font-size: 1.1rem;
+            color: #333;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .address-form, .payment-details {
+            margin-top: 1rem;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #4a1a6a;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #6a3093;
+            outline: none;
+        }
+
+        .confirm-button {
+            background: linear-gradient(135deg, #4a1a6a, #6a3093);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            width: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .confirm-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(74, 26, 106, 0.4);
+        }
+
+        .confirm-button i {
+            font-size: 1.2rem;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 1rem;
+            color: #4a1a6a;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .success-message {
+            color: #2ecc71;
+            text-align: center;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .back-button {
+            background: #666;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-button:hover {
+            background: #555;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+                margin-top: 100px;
+            }
+
+            .payment-form {
+                padding: 1.5rem;
+            }
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f8f8f8;
+            border-radius: 8px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            margin-right: 1rem;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: #4a1a6a;
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .toggle-label {
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        .payment-options {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid #ddd;
+            transition: all 0.3s ease;
+        }
+
+        .payment-option:hover {
+            border-color: #4a1a6a;
+            background: #f8f8f8;
+        }
+
+        .payment-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #4a1a6a;
+        }
+
+        .payment-option label {
+            font-size: 1.1rem;
+            color: #333;
+            cursor: pointer;
+        }
+
+        #entrega-details {
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .payment-methods {
+            background: #fff;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .payment-methods h2 {
+            color: #4a1a6a;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .payment-option-main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-option-card {
+            position: relative;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-option-card:hover {
+            border-color: #4a1a6a;
+            transform: translateY(-2px);
+        }
+
+        .payment-option-card input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .payment-option-card input[type="radio"]:checked + .payment-option-content {
+            color: #4a1a6a;
+        }
+
+        .payment-option-card input[type="radio"]:checked + .payment-option-content .payment-icon {
+            background: #4a1a6a;
+            color: white;
+        }
+
+        .payment-option-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .payment-icon {
+            width: 50px;
+            height: 50px;
+            background: #f0f0f0;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #4a1a6a;
+            transition: all 0.3s ease;
+        }
+
+        .payment-info {
+            flex: 1;
+        }
+
+        .payment-info label {
+            display: block;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+            color: #333;
+        }
+
+        .payment-info p {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .pix-container {
+            background: #f8f8f8;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .pix-info h3 {
+            color: #4a1a6a;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .pix-key {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .pix-key span {
+            font-size: 1.2rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .copy-button {
+            background: #4a1a6a;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .copy-button:hover {
+            background: #6a3093;
+        }
+
+        .pix-instruction {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .entrega-container {
+            background: #f8f8f8;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .section-label {
+            color: #4a1a6a;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .payment-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-option {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-option:hover {
+            border-color: #4a1a6a;
+        }
+
+        .payment-option input[type="radio"] {
+            display: none;
+        }
+
+        .payment-option label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .payment-option input[type="radio"]:checked + label {
+            color: #4a1a6a;
+            font-weight: bold;
+        }
+
+        .payment-option i {
+            font-size: 1.2rem;
+            color: #4a1a6a;
+        }
+
+        #troco-container {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        #troco-container label {
+            color: #4a1a6a;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        #troco-container input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        #troco-container input:focus {
+            border-color: #4a1a6a;
+            outline: none;
+        }
+
+        @media (max-width: 768px) {
+            .payment-option-main {
+                grid-template-columns: 1fr;
+            }
+
+            .payment-options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        #delivery-fee {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 1rem 0;
+            color: #4a1a6a;
+            font-weight: bold;
+        }
+
+        .loading i {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .payment-option {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-option:hover {
+            border-color: #4a1a6a;
+            background: #f8f8f8;
+        }
+
+        .payment-option input[type="radio"] {
+            display: none;
+        }
+
+        .payment-option label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+            color: #333;
+            cursor: pointer;
+            width: 100%;
+            margin: 0;
+        }
+
+        .payment-option input[type="radio"]:checked + label {
+            color: #4a1a6a;
+            font-weight: bold;
+        }
+
+        .payment-option.selected {
+            border-color: #4a1a6a;
+            background: #f8f8f8;
+        }
+
+        .payment-option.selected label {
+            color: #4a1a6a;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-ice-cream"></i>
+                Guia Açaí
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <button class="back-button" onclick="window.location.href='index.html'">
+            <i class="fas fa-arrow-left"></i>
+            Voltar
+        </button>
+
+        <div class="payment-form">
+            <div class="order-summary">
+                <h2>Resumo do Pedido</h2>
+                <div id="order-items">
+                    <!-- Itens do pedido serão inseridos aqui via JavaScript -->
+                </div>
+                <div id="delivery-fee" style="display: none;">
+                    <div class="order-item">
+                        <span>Taxa de Entrega</span>
+                        <span id="delivery-fee-value">R$ 0,00</span>
+                    </div>
+                </div>
+                <div class="total">
+                    Total: R$ <span id="total-price">0,00</span>
+                </div>
+            </div>
+
+            <div class="delivery-options">
+                <h2>Forma de Entrega</h2>
+                <div class="delivery-option">
+                    <input type="radio" id="retirada" name="delivery" value="retirada" checked>
+                    <label for="retirada">Retirada no Local</label>
+                </div>
+                <div class="delivery-option">
+                    <input type="radio" id="entrega" name="delivery" value="entrega">
+                    <label for="entrega">Entrega</label>
+                </div>
+
+                <div class="address-form" id="address-form">
+                    <div class="form-group">
+                        <label for="cep">CEP</label>
+                        <input type="text" id="cep" placeholder="00000-000" maxlength="9">
+                    </div>
+                    <div class="form-group">
+                        <label for="endereco">Endereço</label>
+                        <input type="text" id="endereco" placeholder="Rua, Avenida, etc.">
+                    </div>
+                    <div class="form-group">
+                        <label for="numero">Número</label>
+                        <input type="text" id="numero" placeholder="Número">
+                    </div>
+                    <div class="form-group">
+                        <label for="complemento">Complemento (opcional)</label>
+                        <input type="text" id="complemento" placeholder="Complemento">
+                    </div>
+                    <div class="form-group">
+                        <label for="bairro">Bairro</label>
+                        <input type="text" id="bairro" placeholder="Bairro">
+                    </div>
+                    <div class="form-group">
+                        <label for="cidade">Cidade</label>
+                        <input type="text" id="cidade" placeholder="Cidade">
+                    </div>
+                </div>
+            </div>
+
+            <div class="payment-methods">
+                <h2>Forma de Pagamento</h2>
+                
+                <div class="payment-option-main">
+                    <div class="payment-option-card" id="pix-option">
+                        <input type="radio" id="pix" name="payment" value="pix" checked>
+                        <div class="payment-option-content">
+                            <div class="payment-icon">
+                                <i class="fas fa-qrcode"></i>
+                            </div>
+                            <div class="payment-info">
+                                <label for="pix">PIX</label>
+                                <p>Pagamento instantâneo</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="payment-option-card" id="entrega-option">
+                        <input type="radio" id="pagamento-entrega" name="payment" value="entrega">
+                        <div class="payment-option-content">
+                            <div class="payment-icon">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <div class="payment-info">
+                                <label for="pagamento-entrega">Pagamento na Entrega</label>
+                                <p>Dinheiro ou Cartão</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="payment-details" id="pix-details">
+                    <div class="pix-container">
+                        <div class="pix-info">
+                            <h3>Chave PIX</h3>
+                            <div class="pix-key">
+                                <span>06080349167</span>
+                                <button class="copy-button" onclick="copyPixKey()">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <p class="pix-instruction">Após o pagamento, envie o comprovante pelo WhatsApp.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="payment-details" id="entrega-details" style="display: none;">
+                    <div class="entrega-container">
+                        <div class="form-group">
+                            <label class="section-label">Como deseja pagar na entrega?</label>
+                            <div class="payment-options">
+                                <div class="payment-option" onclick="selectPaymentOption('dinheiro')">
+                                    <input type="radio" id="dinheiro-entrega" name="pagamento-entrega" value="dinheiro">
+                                    <label for="dinheiro-entrega">
+                                        <i class="fas fa-money-bill-wave"></i>
+                                        Dinheiro
+                                    </label>
+                                </div>
+                                <div class="payment-option" onclick="selectPaymentOption('cartao')">
+                                    <input type="radio" id="cartao-entrega" name="pagamento-entrega" value="cartao">
+                                    <label for="cartao-entrega">
+                                        <i class="fas fa-credit-card"></i>
+                                        Cartão
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" id="troco-container" style="display: none;">
+                            <label for="troco">Precisa de troco? Se sim, para quanto?</label>
+                            <input type="text" id="troco" placeholder="Ex: 50,00">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="error-message" id="error-message"></div>
+            <div class="success-message" id="success-message"></div>
+            <div class="loading" id="loading">Processando pedido</div>
+            <button class="confirm-button" id="confirm-button">
+                <i class="fas fa-check"></i>
+                Confirmar Pedido
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Constantes
+        const WHATSAPP_NUMBER = "5562999372323";
+        const PIX_KEY = "06080349167";
+
+        // Funções de formatação
+        function formatarCEP(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length > 5) {
+                value = value.slice(0, 5) + '-' + value.slice(5);
+            }
+            input.value = value;
+        }
+
+        function formatarTroco(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length > 2) {
+                value = value.slice(0, -2) + ',' + value.slice(-2);
+            }
+            input.value = value;
+        }
+
+        // Função para calcular frete
+        async function calcularFrete(cep) {
+            const loading = document.getElementById('loading');
+            const deliveryFee = document.getElementById('delivery-fee');
+            const deliveryFeeValue = document.getElementById('delivery-fee-value');
+            const totalPrice = document.getElementById('total-price');
+            
+            try {
+                loading.style.display = 'block';
+                
+                // Simulação de cálculo de frete (substitua pela sua lógica real)
+                const frete = await new Promise(resolve => {
+                    setTimeout(() => {
+                        const valorBase = 5.00;
+                        const valorAdicional = Math.random() * 3;
+                        resolve(valorBase + valorAdicional);
+                    }, 1000);
+                });
+
+                deliveryFee.style.display = 'block';
+                deliveryFeeValue.textContent = `R$ ${frete.toFixed(2)}`;
+
+                const precoBase = parseFloat(document.getElementById('total-price').textContent);
+                const novoTotal = precoBase + frete;
+                totalPrice.textContent = novoTotal.toFixed(2);
+
+                return frete;
+            } catch (error) {
+                console.error('Erro ao calcular frete:', error);
+                showError('Erro ao calcular frete. Por favor, tente novamente.');
+                return 0;
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        // Função para atualizar o resumo do pedido
+        function updateOrderSummary() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const size = urlParams.get('size');
+            const price = urlParams.get('price');
+            const addOns = urlParams.get('addOns') ? JSON.parse(decodeURIComponent(urlParams.get('addOns'))) : [];
+
+            const orderItems = document.getElementById('order-items');
+            orderItems.innerHTML = `
+                <div class="order-item">
+                    <span>Açaí ${size}</span>
+                    <span>R$ ${price}</span>
+                </div>
+            `;
+
+            if (addOns.length > 0) {
+                const addOnsDiv = document.createElement('div');
+                addOnsDiv.className = 'addons-section';
+                addOnsDiv.innerHTML = '<h3>Adicionais:</h3>';
+                
+                addOns.forEach(addOn => {
+                    const div = document.createElement('div');
+                    div.className = 'order-item addon-item';
+                    div.innerHTML = `
+                        <span>+ ${addOn}</span>
+                        <span>R$ 0,00</span>
+                    `;
+                    addOnsDiv.appendChild(div);
+                });
+                
+                orderItems.appendChild(addOnsDiv);
+            }
+
+            document.getElementById('total-price').textContent = price;
+        }
+
+        // Função para formatar mensagem do pedido
+        function formatarMensagemPedido() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const size = urlParams.get('size');
+            const price = urlParams.get('price');
+            const addOns = urlParams.get('addOns') ? JSON.parse(decodeURIComponent(urlParams.get('addOns'))) : [];
+            const deliveryType = document.querySelector('input[name="delivery"]:checked').value;
+            const paymentType = document.querySelector('input[name="payment"]:checked').value;
+
+            let mensagem = `🍧 Novo Pedido de Açaí 🍧\n\n`;
+            
+            mensagem += `Tamanho: ${size}\n`;
+            mensagem += `Preço Base: R$ ${price}\n\n`;
+
+            mensagem += `Adicionais:\n`;
+            addOns.forEach(addOn => {
+                mensagem += `- ${addOn}\n`;
+            });
+
+            mensagem += `\nAdicionais Extras: ${addOns.length}\n`;
+            mensagem += `Valor Extra: R$ ${addOns.length * 2.00}\n`;
+
+            mensagem += `\nTotal: R$ ${document.getElementById('total-price').textContent}\n`;
+
+            mensagem += `\nPedido feito pelo site Guia Açaí`;
+
+            return encodeURIComponent(mensagem);
+        }
+
+        // Funções de utilidade
+        function showError(message) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById('success-message');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+        }
+
+        function copyPixKey() {
+            navigator.clipboard.writeText(PIX_KEY).then(() => {
+                const button = document.querySelector('.copy-button');
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-check"></i>';
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                }, 2000);
+            }).catch(() => {
+                showError('Erro ao copiar a chave PIX. Por favor, copie manualmente.');
+            });
+        }
+
+        // Função para selecionar opção de pagamento
+        function selectPaymentOption(option) {
+            const dinheiroOption = document.getElementById('dinheiro-entrega');
+            const cartaoOption = document.getElementById('cartao-entrega');
+            const trocoContainer = document.getElementById('troco-container');
+
+            if (option === 'dinheiro') {
+                dinheiroOption.checked = true;
+                cartaoOption.checked = false;
+                trocoContainer.style.display = 'block';
+            } else {
+                dinheiroOption.checked = false;
+                cartaoOption.checked = true;
+                trocoContainer.style.display = 'none';
+            }
+        }
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            updateOrderSummary();
+
+            // Formatação de inputs
+            document.getElementById('cep').addEventListener('input', function() {
+                formatarCEP(this);
+            });
+
+            document.getElementById('troco').addEventListener('input', function() {
+                formatarTroco(this);
+            });
+
+            // Toggle do formulário de endereço
+            const retiradaOption = document.getElementById('retirada');
+            const entregaDeliveryOption = document.getElementById('entrega');
+            const addressForm = document.getElementById('address-form');
+
+            retiradaOption.addEventListener('change', function() {
+                addressForm.style.display = 'none';
+                document.getElementById('delivery-fee').style.display = 'none';
+                updateOrderSummary();
+            });
+
+            entregaDeliveryOption.addEventListener('change', function() {
+                addressForm.style.display = 'block';
+            });
+
+            // Eventos para os métodos de pagamento
+            const pixOption = document.getElementById('pix-option');
+            const entregaPaymentOption = document.getElementById('entrega-option');
+            const pixDetails = document.getElementById('pix-details');
+            const entregaDetails = document.getElementById('entrega-details');
+            const trocoContainer = document.getElementById('troco-container');
+            const dinheiroEntrega = document.getElementById('dinheiro-entrega');
+            const cartaoEntrega = document.getElementById('cartao-entrega');
+
+            function updatePaymentDetails() {
+                const isPix = document.getElementById('pix').checked;
+                
+                if (isPix) {
+                    pixDetails.style.display = 'block';
+                    entregaDetails.style.display = 'none';
+                    trocoContainer.style.display = 'none';
+                } else {
+                    pixDetails.style.display = 'none';
+                    entregaDetails.style.display = 'block';
+                    if (dinheiroEntrega.checked) {
+                        trocoContainer.style.display = 'block';
+                    } else {
+                        trocoContainer.style.display = 'none';
+                    }
+                }
+            }
+
+            pixOption.addEventListener('click', function() {
+                document.getElementById('pix').checked = true;
+                document.getElementById('pagamento-entrega').checked = false;
+                updatePaymentDetails();
+            });
+
+            entregaPaymentOption.addEventListener('click', function() {
+                document.getElementById('pix').checked = false;
+                document.getElementById('pagamento-entrega').checked = true;
+                updatePaymentDetails();
+            });
+
+            dinheiroEntrega.addEventListener('change', function() {
+                if (this.checked) {
+                    trocoContainer.style.display = 'block';
+                }
+            });
+
+            cartaoEntrega.addEventListener('change', function() {
+                if (this.checked) {
+                    trocoContainer.style.display = 'none';
+                }
+            });
+
+            // Evento para o CEP
+            const cepInput = document.getElementById('cep');
+            let cepTimeout;
+
+            cepInput.addEventListener('input', function() {
+                clearTimeout(cepTimeout);
+                const cep = this.value.replace(/\D/g, '');
+                
+                if (cep.length === 8) {
+                    cepTimeout = setTimeout(() => {
+                        calcularFrete(cep);
+                    }, 500);
+                }
+            });
+
+            // Evento para finalizar o pedido
+            document.getElementById('confirm-button').addEventListener('click', function() {
+                const loading = document.getElementById('loading');
+                const successMessage = document.getElementById('success-message');
+                const errorMessage = document.getElementById('error-message');
+                
+                // Validações
+                if (document.querySelector('input[name="delivery"]:checked').value === 'entrega') {
+                    const cep = document.getElementById('cep').value;
+                    const endereco = document.getElementById('endereco').value;
+                    const numero = document.getElementById('numero').value;
+                    const bairro = document.getElementById('bairro').value;
+                    const cidade = document.getElementById('cidade').value;
+
+                    if (!cep || !endereco || !numero || !bairro || !cidade) {
+                        errorMessage.textContent = 'Por favor, preencha todos os campos do endereço.';
+                        errorMessage.style.display = 'block';
+                        return;
+                    }
+                }
+
+                // Validação do método de pagamento
+                const paymentType = document.querySelector('input[name="payment"]:checked').value;
+                if (paymentType === 'entrega') {
+                    const formaPagamentoEntrega = document.querySelector('input[name="pagamento-entrega"]:checked');
+                    if (!formaPagamentoEntrega) {
+                        errorMessage.textContent = 'Por favor, selecione a forma de pagamento na entrega.';
+                        errorMessage.style.display = 'block';
+                        return;
+                    }
+                }
+
+                loading.style.display = 'block';
+                errorMessage.style.display = 'none';
+                successMessage.style.display = 'none';
+
+                try {
+                    const mensagem = formatarMensagemPedido();
+                    const whatsappUrl = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${mensagem}`;
+                    
+                    // Abre o WhatsApp em uma nova aba
+                    window.open(whatsappUrl, '_blank');
+                    
+                    // Mostra mensagem de sucesso
+                    successMessage.textContent = 'Pedido enviado com sucesso! Aguarde a confirmação pelo WhatsApp.';
+                    successMessage.style.display = 'block';
+                } catch (error) {
+                    errorMessage.textContent = 'Erro ao enviar o pedido. Por favor, tente novamente.';
+                    errorMessage.style.display = 'block';
+                    console.error('Erro ao enviar pedido:', error);
+                } finally {
+                    loading.style.display = 'none';
+                }
+            });
+
+            // Inicializar o estado
+            updatePaymentDetails();
+        });
+    </script>
+</body>
+</html> 

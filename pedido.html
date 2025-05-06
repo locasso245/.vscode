@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmação do Pedido - Guia Açaí</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1603361513139-4f7efd5c9b1c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: white;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4a1a6a, #6a3093);
+            padding: 1.5rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            color: #ffd700;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 120px auto 0;
+            padding: 2rem;
+        }
+
+        .order-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .order-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .order-header h1 {
+            color: #4a1a6a;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .order-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .order-details {
+            background: #f8f8f8;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .order-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .item-title {
+            color: #4a1a6a;
+            font-weight: bold;
+        }
+
+        .item-price {
+            color: #2ecc71;
+            font-weight: bold;
+        }
+
+        .total-section {
+            background: #4a1a6a;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .total-row:last-child {
+            margin-bottom: 0;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .action-button {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .confirm-button {
+            background: linear-gradient(135deg, #4a1a6a, #6a3093);
+            color: white;
+        }
+
+        .confirm-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(74, 26, 106, 0.4);
+        }
+
+        .back-button {
+            background: #666;
+            color: white;
+        }
+
+        .back-button:hover {
+            background: #555;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+                margin-top: 100px;
+            }
+
+            .order-card {
+                padding: 1.5rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-ice-cream"></i>
+                Guia Açaí
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="order-card">
+            <div class="order-header">
+                <h1>Confirmação do Pedido</h1>
+                <p>Revise seu pedido antes de confirmar</p>
+            </div>
+
+            <div class="order-details">
+                <div class="order-item">
+                    <span class="item-title" id="size-title">Açaí 300ml</span>
+                    <span class="item-price" id="base-price">R$ 16,00</span>
+                </div>
+                <div id="addons-list">
+                    <!-- Adicionais serão inseridos aqui via JavaScript -->
+                </div>
+            </div>
+
+            <div class="total-section">
+                <div class="total-row">
+                    <span>Subtotal</span>
+                    <span id="subtotal">R$ 16,00</span>
+                </div>
+                <div class="total-row" id="extra-row" style="display: none;">
+                    <span>Adicionais Extras</span>
+                    <span id="extra-price">R$ 0,00</span>
+                </div>
+                <div class="total-row">
+                    <span>Total</span>
+                    <span id="total-price">R$ 16,00</span>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-button back-button" onclick="window.location.href='adicionais.html'">
+                    <i class="fas fa-arrow-left"></i>
+                    Voltar
+                </button>
+                <button class="action-button confirm-button" onclick="goToPayment()">
+                    <i class="fas fa-credit-card"></i>
+                    Ir para Pagamento
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Pegar parâmetros da URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const size = urlParams.get('size');
+            const price = urlParams.get('price');
+            const addOns = JSON.parse(decodeURIComponent(urlParams.get('addOns')));
+            const extraAddons = urlParams.get('extraAddons');
+            const extraPrice = urlParams.get('extraPrice');
+
+            // Atualizar título e preço base
+            document.getElementById('size-title').textContent = `Açaí ${size}`;
+            document.getElementById('base-price').textContent = `R$ ${price}`;
+            document.getElementById('subtotal').textContent = `R$ ${price}`;
+
+            // Adicionar adicionais à lista
+            const addonsList = document.getElementById('addons-list');
+            addOns.forEach(addon => {
+                const div = document.createElement('div');
+                div.className = 'order-item';
+                div.innerHTML = `
+                    <span class="item-title">${addon}</span>
+                    <span class="item-price">R$ 0,00</span>
+                `;
+                addonsList.appendChild(div);
+            });
+
+            // Mostrar adicionais extras se houver
+            if (extraAddons > 0) {
+                document.getElementById('extra-row').style.display = 'flex';
+                document.getElementById('extra-price').textContent = `R$ ${extraPrice}`;
+            }
+
+            // Atualizar preço total
+            document.getElementById('total-price').textContent = `R$ ${price}`;
+        });
+
+        function goToPayment() {
+            // Pegar parâmetros da URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const size = urlParams.get('size');
+            const price = urlParams.get('price');
+            const addOns = urlParams.get('addOns');
+            const extraAddons = urlParams.get('extraAddons');
+            const extraPrice = urlParams.get('extraPrice');
+
+            // Criar URL com os parâmetros
+            const params = new URLSearchParams({
+                size: size,
+                price: price,
+                addOns: addOns,
+                extraAddons: extraAddons,
+                extraPrice: extraPrice
+            });
+
+            // Redirecionar para a página de pagamento
+            window.location.href = `pagamento.html?${params.toString()}`;
+        }
+    </script>
+</body>
+</html> 

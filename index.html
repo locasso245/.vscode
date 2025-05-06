@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Açaí - O Melhor Açaí da Cidade</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1603361513139-4f7efd5c9b1c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: white;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4a1a6a, #6a3093);
+            padding: 1.5rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            color: #ffd700;
+        }
+
+        .slogan {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            margin-top: 100px;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .size-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #4a1a6a, #6a3093);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .product-title {
+            font-size: 1.5rem;
+            color: #4a1a6a;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .product-price {
+            font-size: 2rem;
+            color: #2ecc71;
+            font-weight: bold;
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .product-price i {
+            font-size: 1.5rem;
+        }
+
+        .order-button {
+            background: linear-gradient(135deg, #4a1a6a, #6a3093);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            width: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .order-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(74, 26, 106, 0.4);
+        }
+
+        .order-button i {
+            font-size: 1.2rem;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #4a1a6a, #6a3093);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #ffd700;
+        }
+
+        .copyright {
+            width: 100%;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .container {
+                padding: 1rem;
+                margin-top: 140px;
+            }
+
+            .product-image {
+                height: 250px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-ice-cream"></i>
+                Guia Açaí
+            </div>
+            <div class="slogan">O melhor açaí da cidade!</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="products">
+            <div class="product-card" data-size="200ml">
+                <div class="product-image">
+                    <img src="https://deliveryacaiteria.wayweb.com.br/wp-content/uploads/2024/02/wpdelivery-acai-p8.png" alt="Açaí 200ml">
+                    <div class="size-badge">200ml</div>
+                </div>
+                <div class="product-info">
+                    <h2 class="product-title">Copo de 200ml</h2>
+                    <div class="product-price">
+                        <i class="fas fa-tag"></i>
+                        R$ 12,00
+                    </div>
+                    <button class="order-button" onclick="goToAddons('200ml', '12,00')">
+                        <i class="fas fa-shopping-cart"></i>
+                        Escolher Adicionais
+                    </button>
+                </div>
+            </div>
+
+            <div class="product-card" data-size="300ml">
+                <div class="product-image">
+                    <img src="https://deliveryacaiteria.wayweb.com.br/wp-content/uploads/2024/02/wpdelivery-acai-p8.png" alt="Açaí 300ml">
+                    <div class="size-badge">300ml</div>
+                </div>
+                <div class="product-info">
+                    <h2 class="product-title">Copo de 300ml</h2>
+                    <div class="product-price">
+                        <i class="fas fa-tag"></i>
+                        R$ 16,00
+                    </div>
+                    <button class="order-button" onclick="goToAddons('300ml', '16,00')">
+                        <i class="fas fa-shopping-cart"></i>
+                        Escolher Adicionais
+                    </button>
+                </div>
+            </div>
+
+            <div class="product-card" data-size="500ml">
+                <div class="product-image">
+                    <img src="https://deliveryacaiteria.wayweb.com.br/wp-content/uploads/2024/02/wpdelivery-acai-p8.png" alt="Açaí 500ml">
+                    <div class="size-badge">500ml</div>
+                </div>
+                <div class="product-info">
+                    <h2 class="product-title">Copo de 500ml</h2>
+                    <div class="product-price">
+                        <i class="fas fa-tag"></i>
+                        R$ 20,00
+                    </div>
+                    <button class="order-button" onclick="goToAddons('500ml', '20,00')">
+                        <i class="fas fa-shopping-cart"></i>
+                        Escolher Adicionais
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 Guia Açaí - Todos os direitos reservados</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function goToAddons(size, price) {
+            window.location.href = `adicionais.html?size=${size}&price=${price}`;
+        }
+    </script>
+</body>
+</html> 
